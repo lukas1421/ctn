@@ -9,10 +9,11 @@ for line in lines:
     # print(line)
     pattern = re.compile(r'\d{1,2}\.\s{1}')
     pattern2 = re.compile(r"^\d{1,2}\.\s([\u4E00-\u9FA5]{2}).*?([\u4E00-\u9FA5]{2}苑)")
-    pattern3 = re.compile(r"^\d{1,2}\.\s([\u4E00-\u9FA5]{2})([\u4E00-\u9FA5]{4})")
+    # pattern3 = re.compile(r"^\d{1,2}\.\s([\u4E00-\u9FA5]{2})([\u4E00-\u9FA5]{4})")
+    pattern3 = re.compile(r"^\d{1,2}\.\s([\u4E00-\u9FA5]{2})(.{4})")
     res = pattern.match(line)
     if res:
-        # print(line)
+        print(line)
         res2 = pattern2.match(line)
         res3 = pattern3.match(line)
         # print(res2)
