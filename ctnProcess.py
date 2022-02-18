@@ -1,6 +1,6 @@
 import re
 
-with open("ctn", "r") as file:
+with open("file_ctn", "r") as file:
     lines = file.read().rstrip().splitlines()
 dictEstates = {}
 listEstates = []
@@ -13,7 +13,7 @@ for line in lines:
     pattern3 = re.compile(r"^\d{1,2}\.\s([\u4E00-\u9FA5]{2})(.{4})")
     res = pattern.match(line)
     if res:
-        print(line)
+        # print(line)
         res2 = pattern2.match(line)
         res3 = pattern3.match(line)
         # print(res2)

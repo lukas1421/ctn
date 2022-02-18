@@ -9,6 +9,6 @@ ctnWeb = "https://www.chp.gov.hk/files/pdf/ctn_" + \
 
 response = urllib.request.urlopen(ctnWeb)
 print(response)
-file = open('ctn', 'wb')
+file = open('file_ctn', 'wb')
 file.write(response.read())
 file.close()
