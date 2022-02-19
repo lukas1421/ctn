@@ -4,32 +4,41 @@ with open("file_confirmedBuildings", "r") as file:
     lines = file.read().rstrip().splitlines()
 dictEstates = {}
 
+
 for line in lines:
 
     pattern = re.compile(r'西貢')
     pattern1 = re.compile(r'西貢\s+(.*?)$')
 
     patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
+    patternPhase = re.compile(r"^(.*?期)(.*?)$")
     patternNonestates = re.compile(r"([^\s]+)\s+(.*?)$")
 
-    res = pattern.match(line)
-    if res:
+    resSaikung = pattern.match(line)
+    if resSaikung:
         res1 = pattern1.match(line)
         if res1:
-            res2 = patternEstates.match(res1.group(1))
-            res3 = patternNonestates.match(res1.group(1))
+            resEstate = patternEstates.match(res1.group(1))
+            resPhase = patternPhase.match(res1.group(1))
+            resultNonestate = patternNonestates.match(res1.group(1))
 
-            if res2:
-                estate = res2.group(1)
-                building = res2.group(2)
+            if resEstate:
+                estate = resEstate.group(1)
+                building = resEstate.group(2)
 
                 if estate not in dictEstates:
                     dictEstates[estate] = []
                 dictEstates[estate].append(building)
+            elif resPhase:
+                estate = resPhase.group(1)
+                building = resPhase.group(2)
 
-            elif res3:
-                estate = res3.group(1)
-                building = res3.group(2)
+                if estate not in dictEstates:
+                    dictEstates[estate] = []
+                dictEstates[estate].append(building)
+            elif resultNonestate:
+                estate = resultNonestate.group(1)
+                building = resultNonestate.group(2)
 
                 if estate not in dictEstates:
                     dictEstates[estate] = []
