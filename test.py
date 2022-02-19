@@ -5,7 +5,7 @@ shatian = '沙田第一城第三十四座'
 # patternCommon = re.compile(r"(第.*)$")
 #patternCommon = re.compile(r"(第.*?(?!.*第))$")
 # patternCommon = re.compile(r"(第.*?)$")
-patternCommon = re.compile(r"(.*?)(第.*?(?!第.*?))$")
+patternCommon = re.compile(r"^(.*?)(第.{1,3}座)$")
 
 resCommon = patternCommon.match(shatian)
 print(resCommon)

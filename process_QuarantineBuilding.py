@@ -26,7 +26,8 @@ for region in ['西貢','觀塘','沙田']:
         patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
         # patternCommon = re.compile(r"([\u4E00-\u9FA5]{2}廣場|[\u4E00-\u9FA5]{2,3}園)(.*?)$")
         # patternCommon = re.compile(r"([\u4E00-\u9FA5]{2,3}廣場|園)(.*?)$")
-        patternCommon = re.compile(r"^(.*?)(第.*?)$")
+        # patternCommon = re.compile(r"^(.*?)(第.*?)$")
+        patternCommon = re.compile(r"^(.*?)(第.{1,3}座)$")
 
         patternNonestates = re.compile(r"([^\s]+)\s+(.*?)$")
 
@@ -63,7 +64,7 @@ for region in ['西貢','觀塘','沙田']:
 
                     dictEstates[estate].append(building)
 
-    print("*******************************")
+    print("*************隔离小区******************")
     print(region)
     #print("dict estates",dictEstates)
     for k in sorted(dictEstates, key=lambda k: len(dictEstates[k]), reverse=True):
