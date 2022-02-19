@@ -1,57 +1,83 @@
 import re
+
 ####
 #### Quarantine Buildings #####
 
 with open("file_quarantineBuildings", "r") as file:
     lines = file.read().rstrip().splitlines()
-dictEstates = {}
+#dictEstates = {}
+#regionEstates = {}
 
-for line in lines:
+# for region in ['觀塘', '西贡']:
+#     print(region)
 
-    pattern = re.compile(r'西貢')
-    patternSaikung = re.compile(r'西貢\s+(.*?)$')
+for region in ['西貢','觀塘','沙田']:
+    # print(region)
+    dictEstates = {}
+    #print(lines)
 
-    patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
-    #patternCommon = re.compile(r"([\u4E00-\u9FA5]{2}廣場|[\u4E00-\u9FA5]{2,3}園)(.*?)$")
-    #patternCommon = re.compile(r"([\u4E00-\u9FA5]{2,3}廣場|園)(.*?)$")
-    patternCommon = re.compile(r"^(.*?)(第.*?)$")
+    for line in lines:
+        # print(region)
+        pattern = re.compile(r'' + region)
+        #print(pattern)
+        patternRegion = re.compile(region + r'\s+(.*?)$')
+        #print(patternRegion)
 
-    patternNonestates = re.compile(r"([^\s]+)\s+(.*?)$")
+        patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
+        # patternCommon = re.compile(r"([\u4E00-\u9FA5]{2}廣場|[\u4E00-\u9FA5]{2,3}園)(.*?)$")
+        # patternCommon = re.compile(r"([\u4E00-\u9FA5]{2,3}廣場|園)(.*?)$")
+        patternCommon = re.compile(r"^(.*?)(第.*?)$")
 
-    res = pattern.match(line)
-    if res:
-        resSaikung = patternSaikung.match(line)
-        if resSaikung:
-            resEstates = patternEstates.match(resSaikung.group(1))
-            resCommon = patternCommon.match(resSaikung.group(1))
-            resNonestates = patternNonestates.match(resSaikung.group(1))
+        patternNonestates = re.compile(r"([^\s]+)\s+(.*?)$")
 
-            if resEstates:
-                estate = resEstates.group(1)
-                building = resEstates.group(2)
+        res = pattern.match(line)
+        if res:
+            resSaikung = patternRegion.match(line)
+            if resSaikung:
+                resEstates = patternEstates.match(resSaikung.group(1))
+                resCommon = patternCommon.match(resSaikung.group(1))
+                resNonestates = patternNonestates.match(resSaikung.group(1))
 
-                if estate not in dictEstates:
-                    dictEstates[estate] = []
-                dictEstates[estate].append(building)
+                if resEstates:
+                    estate = resEstates.group(1)
+                    building = resEstates.group(2)
 
-            elif resCommon:
-                estate = resCommon.group(1)
-                building = resCommon.group(2)
+                    if estate not in dictEstates:
+                        dictEstates[estate] = []
+                    dictEstates[estate].append(building)
 
-                if estate not in dictEstates:
-                    dictEstates[estate] = []
-                dictEstates[estate].append(building)
+                elif resCommon:
+                    estate = resCommon.group(1)
+                    building = resCommon.group(2)
 
-            elif resNonestates:
-                estate = resNonestates.group(1)
-                building = resNonestates.group(2)
+                    if estate not in dictEstates:
+                        dictEstates[estate] = []
+                    dictEstates[estate].append(building)
 
-                if estate not in dictEstates:
-                    dictEstates[estate] = []
+                elif resNonestates:
+                    estate = resNonestates.group(1)
+                    building = resNonestates.group(2)
 
-                dictEstates[estate].append(building)
+                    if estate not in dictEstates:
+                        dictEstates[estate] = []
+
+                    dictEstates[estate].append(building)
+
+    print("*******************************")
+    print(region)
+    #print("dict estates",dictEstates)
+    for k in sorted(dictEstates, key=lambda k: len(dictEstates[k]), reverse=True):
+        print(k, dictEstates[k])
 
 
-# print(dictEstates)
-for k in sorted(dictEstates, key=lambda k: len(dictEstates[k]), reverse=True):
-    print(k, dictEstates[k])
+#     if region not in regionEstates:
+#         regionEstates[region]=[]
+#     regionEstates[region].append(dictEstates)
+#
+#
+# # print(dictEstates)
+# for region in regionEstates:
+#     dictEstates = regionEstates[region]
+#     print(region)
+#     for k in sorted(dictEstates, key=lambda k: len(dictEstates[k]), reverse=True):
+#         print(k, dictEstates[k])
