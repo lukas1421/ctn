@@ -1,6 +1,6 @@
 import re
 
-with open("file_confirmedBuildings", "r") as file:
+with open("file_confirmedBuildings_T", "r") as file:
     lines = file.read().rstrip().splitlines()
 # dictEstates = {}
 
