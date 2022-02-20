@@ -5,29 +5,12 @@ import re
 
 with open("file_quarantineBuildings_T", "r") as file:
     lines = file.read().rstrip().splitlines()
-# dictEstates = {}
 regionEstates = {}
 
-# for region in ['觀塘', '西贡']:
-#     print(region)
-
-# for region in ['西貢','觀塘','沙田']:
-#     # print(region)
-#     dictEstates = {}
-# print(lines)
-
 for line in lines:
-    # print(region)
-    # pattern = re.compile(r'' + region)
     patternRegionBuilding = re.compile(r'^(.*?)\s+(.*?)$')
-    # print(pattern)
-    # patternRegion = re.compile(region + r'\s+(.*?)$')
-    # print(patternRegion)
 
     patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
-    # patternCommon = re.compile(r"([\u4E00-\u9FA5]{2}廣場|[\u4E00-\u9FA5]{2,3}園)(.*?)$")
-    # patternCommon = re.compile(r"([\u4E00-\u9FA5]{2,3}廣場|園)(.*?)$")
-    # patternCommon = re.compile(r"^(.*?)(第.*?)$")
     patternCommon = re.compile(r"^(.*?)(第.{1,3}座)$")
 
     patternNonestates = re.compile(r"([^\s]+)\s+(.*?)$")
@@ -38,13 +21,9 @@ for line in lines:
         region = resRegionBuilding.group(1)
         estateFull = resRegionBuilding.group(2)
 
-        # print(region, estateFull)
-
         if region not in regionEstates:
             regionEstates[region] = {}
 
-        # resSaikung = patternRegion.match(line)
-        # if resSaikung:
         resEstates = patternEstates.match(estateFull)
         resCommon = patternCommon.match(estateFull)
         resNonestates = patternNonestates.match(estateFull)
@@ -74,23 +53,32 @@ for line in lines:
             regionEstates[region][estate].append(building)
 
 print("*************隔离小区******************")
-# print(region)
-# print("dict estates",dictEstates)
-for r in sorted(regionEstates, key=lambda r: len(regionEstates[r]), reverse=True):
-    print("***************", r, "****************")
-    print("# of estates", len(regionEstates[r]))
-    print("# total Buildings ", sum(len(regionEstates[r][v]) for v in regionEstates[r].keys()))
-    for k in sorted(regionEstates[r], key=lambda k: len(regionEstates[r][k]), reverse=True):
-       print(r, k, regionEstates[r][k], len(regionEstates[r][k]))
 
-#     if region not in regionEstates:
-#         regionEstates[region]=[]
-#     regionEstates[region].append(dictEstates)
-#
-#
-# # print(dictEstates)
-# for region in regionEstates:
-#     dictEstates = regionEstates[region]
-#     print(region)
-#     for k in sorted(dictEstates, key=lambda k: len(dictEstates[k]), reverse=True):
-#         print(k, dictEstates[k])
+totalEstatesInHK = sum(len(regionEstates[r]) for r in regionEstates.keys())
+totalBuildingsInHK = sum(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) for r in regionEstates.keys())
+totalPublicEstatesInHK = sum(sum(1 for e in regionEstates[r].keys() if '邨' in e or '苑' in e)
+                             for r in regionEstates.keys())
+totalPublicBuildingsInHK = sum(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys() if '邨' in e or '苑' in e)
+                               for r in regionEstates.keys())
+
+print(" total estate in HK ", totalEstatesInHK)
+print(" total Buildings in HK ", totalBuildingsInHK)
+print(" total public estates ", totalPublicEstatesInHK)
+print(" total public buildings ", totalPublicBuildingsInHK)
+
+for r in sorted(regionEstates,
+                key=lambda r: sum(len(regionEstates[r][v]) for v in regionEstates[r].keys()), reverse=True):
+    print("***************", r, "****************")
+    print("# of estates/HK estates", len(regionEstates[r]), round(len(regionEstates[r]) / totalEstatesInHK * 100), "%")
+    print("# of public estates/region estates", sum(1 for e in regionEstates[r].keys() if '邨' in e or '苑' in e),
+          round(sum(1 for e in regionEstates[r].keys() if '邨' in e or '苑' in e) / len(regionEstates[r]) * 100), "%")
+
+    print("# total Buildings/total HK buildings", sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()),
+          round(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) / totalBuildingsInHK * 100), "%")
+
+    print("# of public buildings/region buildings", sum(len(regionEstates[r][e]) for e in regionEstates[r].keys() if '邨' in e or '苑' in e),
+          round(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys() if '邨' in e or '苑' in e)
+                / sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) * 100), "%")
+
+    for k in sorted(regionEstates[r], key=lambda k: len(regionEstates[r][k]), reverse=True):
+        print(r, k, regionEstates[r][k], len(regionEstates[r][k]))
