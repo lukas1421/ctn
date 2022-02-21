@@ -1,5 +1,3 @@
-import re
-
 from methods import getQuarantineDict
 
 regionEstatesT = getQuarantineDict('file_quarantineBuildings_T')

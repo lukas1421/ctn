@@ -1,9 +1,8 @@
 import re
 import unicodedata
 
-dict1 = {'10': '十', '11': '十一',
-         '1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八',
-         '9': '九'}
+dict1 = {'10': '十', '11': '十一', '1': '一', '2': '二', '3': '三', '4': '四',
+         '5': '五', '6': '六', '7': '七', '8': '八', '9': '九'}
 
 
 def normalize(s):
@@ -19,14 +18,7 @@ def getConfirmedDict(fileName):
     regionEstates = {}
 
     for line in lines:
-        # print(region)
         patternRegionBuilding = re.compile(r'^(.*?)\s+(.*?)$')
-        # pattern = re.compile(r'' + region)
-        # print(pattern)
-        # patternRegion = re.compile(region + r'\s+(.*?)$')
-        # print(patternRegion)
-        # pattern = re.compile(r'西貢')
-        # pattern1 = re.compile(r'西貢\s+(.*?)$')
         resRegionBuilding = patternRegionBuilding.match(line)
         patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
         patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
@@ -37,13 +29,11 @@ def getConfirmedDict(fileName):
             estateFull = normalize(resRegionBuilding.group(2).upper().strip().replace(" ", ""))
 
             if region == '地區':
-                # print("diqu useless line", region, line)
                 continue
 
             if region not in regionEstates:
                 regionEstates[region] = {}
 
-            # print("group1",region, "group2", estateFull)
             resEstate = patternEstates.match(estateFull)
             resPhase = patternPhase.match(estateFull)
             resultNonestate = patternNonestates.match(estateFull)
