@@ -46,7 +46,8 @@ for r in regionEstatesY:
                         decreases[r][e].append(b)
 print(decreases)
 
-print("************隔离不同****************")
+print("************隔离增加**************** TOTAL BUILDINGS UP:",
+      sum(sum(len(increases[r][e]) for e in increases[r].keys()) for r in increases.keys()))
 
 for r in sorted(increases, key=lambda r: (sum(len(increases[r][e]) for e in increases[r].keys())), reverse=True):
     totalEstateInRegion = sum(1 for e in increases[r].keys())
@@ -58,7 +59,9 @@ for r in sorted(increases, key=lambda r: (sum(len(increases[r][e]) for e in incr
 
 print("                                                                        ")
 print("************************************************************************")
-print("************隔离减少****************")
+print("************隔离减少**************** TOTAL BUILDING DOWN:",
+      sum(sum(len(decreases[r][e]) for e in decreases[r].keys()) for r in decreases.keys()))
+
 for r in sorted(decreases, key=lambda r: (sum(len(decreases[r][e]) for e in decreases[r].keys())), reverse=True):
     totalEstateInRegion = sum(1 for e in decreases[r].keys())
     totalBuildingsInRegion = sum(len(decreases[r][e]) for e in decreases[r].keys())

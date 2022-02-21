@@ -23,10 +23,10 @@ for r in regionEstatesT:
                         if e not in increases[r]:
                             increases[r][e] = []
                         increases[r][e].append(b)
-print(increases)
+# print(increases)
 
 # DECREASE
-decreases={}
+decreases = {}
 for r in regionEstatesY:
     if r not in regionEstatesT:
         decreases[r] = regionEstatesY[r]
@@ -44,10 +44,11 @@ for r in regionEstatesY:
                         if e not in decreases[r]:
                             decreases[r][e] = []
                         decreases[r][e].append(b)
-print(decreases)
+# print(decreases)
 
+print("************确诊增加****************TOTAL BUILDINGS UP:",
+      sum(sum(len(increases[r][e]) for e in increases[r].keys()) for r in increases.keys()))
 
-print("************确诊增加****************")
 for r in sorted(increases, key=lambda r: (sum(len(increases[r][e]) for e in increases[r].keys())), reverse=True):
     totalEstateInRegion = sum(1 for e in increases[r].keys())
     totalBuildingsInRegion = sum(len(increases[r][e]) for e in increases[r].keys())
@@ -58,7 +59,9 @@ for r in sorted(increases, key=lambda r: (sum(len(increases[r][e]) for e in incr
 
 print("                                                                        ")
 print("************************************************************************")
-print("************确诊减少****************")
+print("************确诊减少****************TOTAL BUILDING DOWN:",
+      sum(sum(len(decreases[r][e]) for e in decreases[r].keys()) for r in decreases.keys()))
+
 for r in sorted(decreases, key=lambda r: (sum(len(decreases[r][e]) for e in decreases[r].keys())), reverse=True):
     totalEstateInRegion = sum(1 for e in decreases[r].keys())
     totalBuildingsInRegion = sum(len(decreases[r][e]) for e in decreases[r].keys())
