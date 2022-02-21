@@ -31,9 +31,6 @@ def getConfirmedDict(fileName):
             region = normalize(resRegionBuilding.group(1).upper().strip())
             estateFull = normalize(resRegionBuilding.group(2).upper().strip().replace(" ", ""))
 
-            if region == '地區':
-                continue
-
             if region not in regionEstates:
                 regionEstates[region] = {}
 
