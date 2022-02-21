@@ -67,8 +67,6 @@ print("********************今天昨天对比 确诊********************")
 totalRegionsHKT = len(regionEstatesT.keys())
 totalRegionsHKY = len(regionEstatesY.keys())
 print("确诊总区 T/T-1", totalRegionsHKT, totalRegionsHKY, str(totalRegionsHKT - totalRegionsHKY))
-# print(regionEstatesT.keys())
-# print(regionEstatesY.keys())
 
 totalEstatesInHKT = sum(len(regionEstatesT[r]) for r in regionEstatesT.keys())
 totalEstatesInHKY = sum(len(regionEstatesY[r]) for r in regionEstatesY.keys())
@@ -97,15 +95,6 @@ for r in sorted(increaseEstates, key=lambda r: len(increaseEstates[r]) - len(dec
     for e in sorted(decreaseEstates[r], key=lambda e: len(decreaseEstates[r][e]), reverse=True):
         print('减少',e, decreaseEstates[r][e], len(decreaseEstates[r][e]))
 
-# print(" ")
-# print("************确诊小区减少****************", sum(len(decreaseEstates[r]) for r in decreaseEstates.keys()))
-#
-# for r in sorted(decreaseEstates, key=lambda r: len(decreaseEstates[r]), reverse=True):
-#     print(" ")
-#     print("****", r, "减少小区****", len(decreaseEstates[r]))
-#     for e in sorted(decreaseEstates[r], key=lambda e: len(decreaseEstates[r][e]), reverse=True):
-#         print(e, decreaseEstates[r][e], len(decreaseEstates[r][e]))
-
 # buildings
 print(" ")
 print("************确诊楼增****************:",
@@ -116,7 +105,6 @@ for r in sorted(increaseBuildings, key=lambda r: (sum(len(increaseBuildings[r][e
                                                       for e in increaseBuildings[r].keys()) -
                                                   sum(len(decreaseBuildings[r][e]) for e in
                                                       decreaseBuildings[r].keys())), reverse=True):
-    # estateIncrease = len(increaseBuildings[r].keys())
     increaseBuildingsInRegion = sum(len(increaseBuildings[r][e]) for e in increaseBuildings[r].keys())
     decreaseBuildingsInRegion = sum(len(decreaseBuildings[r][e]) for e in decreaseBuildings[r].keys())
     print(" ")
@@ -125,23 +113,8 @@ for r in sorted(increaseBuildings, key=lambda r: (sum(len(increaseBuildings[r][e
     for k in sorted(increaseBuildings[r], key=lambda k: len(increaseBuildings[r][k]), reverse=True):
         print('增加',k, increaseBuildings[r][k], len(increaseBuildings[r][k]))
 
-    # estateDecrease = len(decreaseBuildings[r])
-    # buildingDecrease = sum(len(decreaseBuildings[r][e]) for e in decreaseBuildings[r].keys())
+
     print(' ')
     print("减少楼****", "Bldg:", decreaseBuildingsInRegion)
     for k in sorted(decreaseBuildings[r], key=lambda k: len(decreaseBuildings[r][k]), reverse=True):
         print('减少',k, decreaseBuildings[r][k], len(decreaseBuildings[r][k]))
-
-# print(" ")
-# print("************确诊楼减****************",
-#       sum(sum(len(decreaseBuildings[r][e]) for e in decreaseBuildings[r].keys())
-#           for r in decreaseBuildings.keys()))
-#
-# for r in sorted(decreaseBuildings,
-#                 key=lambda r: (sum(len(decreaseBuildings[r][e]) for e in decreaseBuildings[r].keys())), reverse=True):
-#     totalEstateInRegion = len(decreaseBuildings[r])
-#     increaseBuildingsInRegion = sum(len(decreaseBuildings[r][e]) for e in decreaseBuildings[r].keys())
-#     print(" ")
-#     print("****", r, "减少楼****", "Estates:", totalEstateInRegion, "Bldg:", increaseBuildingsInRegion)
-#     for k in sorted(decreaseBuildings[r], key=lambda k: len(decreaseBuildings[r][k]), reverse=True):
-#         print(k, decreaseBuildings[r][k], len(decreaseBuildings[r][k]))
