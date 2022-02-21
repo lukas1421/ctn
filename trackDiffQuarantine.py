@@ -2,6 +2,7 @@ from methods import getQuarantineDict
 
 regionEstatesT = getQuarantineDict('file_quarantineBuildings_T')
 regionEstatesY = getQuarantineDict('file_quarantineBuildings_T-1')
+
 increaseRegions = {}
 increaseEstates = {}
 increaseBuildings = {}
