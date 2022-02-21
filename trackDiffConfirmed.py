@@ -81,11 +81,11 @@ totalBuildingsInHKY = sum(sum(len(regionEstatesY[r][e])
 print("确诊总楼数 T/T-1 ", totalBuildingsInHKT, totalBuildingsInHKY, str(totalBuildingsInHKT - totalBuildingsInHKY))
 
 
-def getLength(dict, key):
-    if key in dict:
-        return len(dict[key])
-    else:
-        return 0
+# def getLength(dict, key):
+#     if key in dict:
+#         return len(dict[key])
+#     else:
+#         return 0
 
 
 # try new
