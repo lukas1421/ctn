@@ -59,13 +59,15 @@ print("*************隔离小区******************")
 
 totalEstatesInHK = sum(len(regionEstates[r]) for r in regionEstates.keys())
 totalBuildingsInHK = sum(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) for r in regionEstates.keys())
+print(" total estate in HK ", totalEstatesInHK)
+print(" total Buildings in HK ", totalBuildingsInHK)
+
+
 totalPublicEstatesInHK = sum(sum(1 for e in regionEstates[r].keys() if '邨' in e or '苑' in e)
                              for r in regionEstates.keys())
 totalPublicBuildingsInHK = sum(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys() if '邨' in e or '苑' in e)
                                for r in regionEstates.keys())
 
-print(" total estate in HK ", totalEstatesInHK)
-print(" total Buildings in HK ", totalBuildingsInHK)
 print(" total public estates ", totalPublicEstatesInHK)
 print(" total public buildings ", totalPublicBuildingsInHK)
 

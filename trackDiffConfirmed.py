@@ -46,7 +46,8 @@ for r in regionEstatesY:
                         decreases[r][e].append(b)
 # print(decreases)
 
-print("************确诊增加****************TOTAL BUILDINGS UP:",
+print("************确诊增加****************" ,"小区增加:",
+      sum(sum(1 for e in increases[r].keys()) for r in increases.keys()), "楼增:",
       sum(sum(len(increases[r][e]) for e in increases[r].keys()) for r in increases.keys()))
 
 for r in sorted(increases, key=lambda r: (sum(len(increases[r][e]) for e in increases[r].keys())), reverse=True):
@@ -59,7 +60,8 @@ for r in sorted(increases, key=lambda r: (sum(len(increases[r][e]) for e in incr
 
 print("                                                                        ")
 print("************************************************************************")
-print("************确诊减少****************TOTAL BUILDING DOWN:",
+print("************确诊减少****************","小区减少:",
+      sum(sum(1 for e in decreases[r].keys()) for r in decreases.keys()), "楼减:",
       sum(sum(len(decreases[r][e]) for e in decreases[r].keys()) for r in decreases.keys()))
 
 for r in sorted(decreases, key=lambda r: (sum(len(decreases[r][e]) for e in decreases[r].keys())), reverse=True):
@@ -69,3 +71,13 @@ for r in sorted(decreases, key=lambda r: (sum(len(decreases[r][e]) for e in decr
           , "Bldg:", totalBuildingsInRegion)
     for k in sorted(decreases[r], key=lambda k: len(decreases[r][k]), reverse=True):
         print(k, decreases[r][k], len(decreases[r][k]))
+
+print("********************今天昨天对比确诊********************")
+totalEstatesInHKT = sum(len(regionEstatesT[r]) for r in regionEstatesT.keys())
+totalEstatesInHKY = sum(len(regionEstatesY[r]) for r in regionEstatesY.keys())
+totalBuildingsInHKT = sum(sum(len(regionEstatesT[r][e])
+                              for e in regionEstatesT[r].keys()) for r in regionEstatesT.keys())
+totalBuildingsInHKY = sum(sum(len(regionEstatesY[r][e])
+                              for e in regionEstatesY[r].keys()) for r in regionEstatesY.keys())
+print("确诊总小区 T/T-1", totalEstatesInHKT, totalEstatesInHKY, str(totalEstatesInHKT - totalEstatesInHKY))
+print("确诊总楼数 T/T-1 ", totalBuildingsInHKT, totalBuildingsInHKY, str(totalBuildingsInHKT - totalBuildingsInHKY))
