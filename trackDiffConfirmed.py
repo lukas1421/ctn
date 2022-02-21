@@ -31,6 +31,9 @@ print(diff)
 
 print("************确诊不同****************")
 for r in sorted(diff, key=lambda r: (sum(len(diff[r][e]) for e in diff[r].keys())), reverse=True):
-    print("***************", r, "****************")
+    totalEstateInRegion = sum(1 for e in diff[r].keys())
+    totalBuildingsInRegion = sum(len(diff[r][e]) for e in diff[r].keys())
+    print("***************", r, "****************", "Estates:", totalEstateInRegion
+          , "Bldg:", totalBuildingsInRegion)
     for k in sorted(diff[r], key=lambda k: len(diff[r][k]), reverse=True):
-        print(r, k, diff[r][k], len(diff[r][k]))
+        print(k, diff[r][k], len(diff[r][k]))
