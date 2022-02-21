@@ -1,35 +1,36 @@
-from methods import getConfirmedDict
+import re
 
-regionEstatesT=getConfirmedDict('file_confirmedBuildings_T')
-regionEstatesY=getConfirmedDict('file_confirmedBuildings_T-1')
+from methods import getQuarantineDict
 
-print("*******************************确诊小区*****************************")
-totalEstatesInHK = sum(len(regionEstatesT[r]) for r in regionEstatesT.keys())
-totalBuildingsInHK = sum(sum(len(regionEstatesT[r][e]) for e in regionEstatesT[r].keys()) for r in regionEstatesT.keys())
-totalPublicEstatesInHK = sum(sum(1 for e in regionEstatesT[r].keys() if '邨' in e or '苑' in e)
-                             for r in regionEstatesT.keys())
-totalPublicBuildingsInHK = sum(sum(len(regionEstatesT[r][e]) for e in regionEstatesT[r].keys() if '邨' in e or '苑' in e)
-                               for r in regionEstatesT.keys())
+regionEstatesT = getQuarantineDict('file_confirmedBuildings_T')
+regionEstatesY = getQuarantineDict('file_confirmedBuildings_T-1')
+diff = {}
 
-print(" total estate in HK ", totalEstatesInHK)
-print(" total Buildings in HK ", totalBuildingsInHK)
-print(" total public estates ", totalPublicEstatesInHK)
-print(" total public buildings ", totalPublicBuildingsInHK)
+for r in regionEstatesT:
+    if r not in regionEstatesY:
+        # print("new region:", r)
+        diff[r] = regionEstatesT[r]
+    else:
+        for e in regionEstatesT[r]:
 
-for r in sorted(regionEstatesT,
-                key=lambda r: sum(len(regionEstatesT[r][v]) for v in regionEstatesT[r].keys()), reverse=True):
+            if e not in regionEstatesY[r]:
+                if r not in diff:
+                    diff[r] = {}
+                diff[r][e] = regionEstatesT[r][e]
+            #   print("new estate:", r, e, regionEstatesT[r][e])
+            else:
+                for b in regionEstatesT[r][e]:
+                    if b not in regionEstatesY[r][e]:
+                        if r not in diff:
+                            diff[r] = {}
+                        if e not in diff[r]:
+                            diff[r][e] = []
+                        diff[r][e].append(b)
+            #            print("new building", r, e, b)
+print(diff)
+
+print("************确诊不同****************")
+for r in sorted(diff, key=lambda r: (sum(len(diff[r][e]) for e in diff[r].keys())), reverse=True):
     print("***************", r, "****************")
-    print("# of estates/HK estates", len(regionEstatesT[r]), round(len(regionEstatesT[r]) / totalEstatesInHK * 100), "%")
-    print("# of public estates/region estates", sum(1 for e in regionEstatesT[r].keys() if '邨' in e or '苑' in e),
-          round(sum(1 for e in regionEstatesT[r].keys() if '邨' in e or '苑' in e) / len(regionEstatesT[r]) * 100), "%")
-
-    print("# total Buildings/total HK buildings", sum(len(regionEstatesT[r][e]) for e in regionEstatesT[r].keys()),
-          round(sum(len(regionEstatesT[r][e]) for e in regionEstatesT[r].keys()) / totalBuildingsInHK * 100), "%")
-
-    print("# of public buildings/region buildings",
-          sum(len(regionEstatesT[r][e]) for e in regionEstatesT[r].keys() if '邨' in e or '苑' in e),
-          round(sum(len(regionEstatesT[r][e]) for e in regionEstatesT[r].keys() if '邨' in e or '苑' in e)
-                / sum(len(regionEstatesT[r][e]) for e in regionEstatesT[r].keys()) * 100), "%")
-
-    for k in sorted(regionEstatesT[r], key=lambda k: len(regionEstatesT[r][k]), reverse=True):
-        print(r, k, regionEstatesT[r][k], len(regionEstatesT[r][k]))
+    for k in sorted(diff[r], key=lambda k: len(diff[r][k]), reverse=True):
+        print(r, k, diff[r][k], len(diff[r][k]))

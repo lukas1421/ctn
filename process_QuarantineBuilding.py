@@ -4,7 +4,7 @@ import re
 #### Quarantine Buildings #####
 from methods import getQuarantineDict
 
-regionEstates = getQuarantineDict('file_quarantineBuildings_T')
+regionEstates = getQuarantineDict('file_quarantineBuildings_T-1')
 
 # with open("file_quarantineBuildings_T", "r") as file:
 #     lines = file.read().rstrip().splitlines()

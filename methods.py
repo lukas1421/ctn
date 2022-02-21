@@ -1,4 +1,13 @@
 import re
+import unicodedata
+
+dict1 = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九'}
+
+
+def normalize(s):
+    for i in dict1.keys():
+        s = s.replace(i, dict1[i])
+    return unicodedata.normalize('NFKC', s)
 
 
 def getConfirmedDict(fileName):
@@ -22,8 +31,8 @@ def getConfirmedDict(fileName):
         patternNonestates = re.compile(r"([^\s]+)\s*(.*?)$")
 
         if resRegionBuilding:
-            region = resRegionBuilding.group(1).upper()
-            estateFull = resRegionBuilding.group(2).upper()
+            region = normalize(resRegionBuilding.group(1).upper().strip())
+            estateFull = normalize(resRegionBuilding.group(2).upper().strip().replace(" ", ""))
 
             if region == '地區':
                 # print("diqu useless line", region, line)
@@ -38,23 +47,23 @@ def getConfirmedDict(fileName):
             resultNonestate = patternNonestates.match(estateFull)
 
             if resEstate:
-                estate = resEstate.group(1).upper()
-                building = resEstate.group(2).upper()
+                estate = normalize(resEstate.group(1).upper().strip().replace(" ", ""))
+                building = normalize(resEstate.group(2).upper().strip().replace(" ", ""))
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
                 regionEstates[region][estate].append(building)
 
             elif resPhase:
-                estate = resPhase.group(1).upper()
-                building = resPhase.group(2).upper()
+                estate = normalize(resPhase.group(1).upper().strip().replace(" ", ""))
+                building = normalize(resPhase.group(2).upper().strip().replace(" ", ""))
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
                 regionEstates[region][estate].append(building)
 
             elif resultNonestate:
-                estate = resultNonestate.group(1).upper()
-                building = resultNonestate.group(2).upper()
+                estate = normalize(resultNonestate.group(1).upper().strip().replace(" ", ""))
+                building = normalize(resultNonestate.group(2).upper().strip().replace(" ", ""))
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
@@ -64,7 +73,6 @@ def getConfirmedDict(fileName):
 
 
 def getQuarantineDict(fileName):
-
     with open(fileName, "r") as file:
         lines = file.read().rstrip().splitlines()
     regionEstates = {}
@@ -80,8 +88,8 @@ def getQuarantineDict(fileName):
         resRegionBuilding = patternRegionBuilding.match(line)
 
         if resRegionBuilding:
-            region = resRegionBuilding.group(1).upper()
-            estateFull = resRegionBuilding.group(2).upper()
+            region = normalize(resRegionBuilding.group(1).upper().strip().replace(" ", ""))
+            estateFull = normalize(resRegionBuilding.group(2).upper().strip().replace(" ", ""))
 
             if region not in regionEstates:
                 regionEstates[region] = {}
@@ -91,24 +99,24 @@ def getQuarantineDict(fileName):
             resNonestates = patternNonestates.match(estateFull)
 
             if resEstates:
-                estate = resEstates.group(1).upper()
-                building = resEstates.group(2).upper()
+                estate = normalize(resEstates.group(1).upper().strip().replace(" ", ""))
+                building = normalize(resEstates.group(2).upper().strip().replace(" ", ""))
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
                 regionEstates[region][estate].append(building)
 
             elif resCommon:
-                estate = resCommon.group(1).upper()
-                building = resCommon.group(2).upper()
+                estate = normalize(resCommon.group(1).upper().strip().replace(" ", ""))
+                building = normalize(resCommon.group(2).upper().strip().replace(" ", ""))
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
                 regionEstates[region][estate].append(building)
 
             elif resNonestates:
-                estate = resNonestates.group(1).upper()
-                building = resNonestates.group(2).upper()
+                estate = normalize(resNonestates.group(1).upper().strip().replace(" ", ""))
+                building = normalize(resNonestates.group(2).upper().strip().replace(" ", ""))
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
