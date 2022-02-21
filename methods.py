@@ -44,14 +44,16 @@ def getConfirmedDict(fileName):
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
-                regionEstates[region][estate].append(building)
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
 
             elif resPhase:
                 estate = normalize(resPhase.group(1).upper().strip().replace(" ", ""))
                 building = normalize(resPhase.group(2).upper().strip().replace(" ", ""))
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
-                regionEstates[region][estate].append(building)
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
 
             elif resultNonestate:
                 estate = normalize(resultNonestate.group(1).upper().strip().replace(" ", ""))
@@ -59,7 +61,8 @@ def getConfirmedDict(fileName):
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
-                regionEstates[region][estate].append(building)
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
 
     return regionEstates
 
@@ -96,7 +99,8 @@ def getQuarantineDict(fileName):
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
-                regionEstates[region][estate].append(building)
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
 
             elif resCommon:
                 estate = normalize(resCommon.group(1).upper().strip().replace(" ", ""))
@@ -104,7 +108,8 @@ def getQuarantineDict(fileName):
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
-                regionEstates[region][estate].append(building)
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
 
             elif resNonestates:
                 estate = normalize(resNonestates.group(1).upper().strip().replace(" ", ""))
@@ -112,5 +117,6 @@ def getQuarantineDict(fileName):
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
-                regionEstates[region][estate].append(building)
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
     return regionEstates
