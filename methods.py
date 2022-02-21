@@ -26,6 +26,10 @@ def getConfirmedDict(fileName):
         patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
         patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
         patternNonestates = re.compile(r"([^\s]+)\s*(.*?)$")
+        # patternEnglish = re.compile(r'^(.*?)\s\d+')
+        # patternEnglish = re.compile(r'^(.*?)\s[第|\d]')
+        patternEnglish = re.compile(r'^([\w|\s]+)\s(第?([\u4E00-\u9FA5]|\d)+(.+))$')
+
 
         if resRegionBuilding:
             region = normalize(resRegionBuilding.group(1).upper().strip())
@@ -34,13 +38,26 @@ def getConfirmedDict(fileName):
             if region not in regionEstates:
                 regionEstates[region] = {}
 
+            print("estatefull",estateFull)
             resEstate = patternEstates.match(estateFull)
             resPhase = patternPhase.match(estateFull)
+            resEnglish = patternEnglish.match(estateFull)
             resultNonestate = patternNonestates.match(estateFull)
 
             if resEstate:
                 estate = normalize(resEstate.group(1).upper().strip().replace(" ", ""))
                 building = normalize(resEstate.group(2).upper().strip().replace(" ", ""))
+
+                if estate not in regionEstates[region]:
+                    regionEstates[region][estate] = []
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
+            elif resEnglish:
+
+                estate = normalize(resEnglish.group(1).upper().strip().replace(" ", ""))
+                building = normalize(resEnglish.group(2).upper().strip().replace(" ", ""))
+
+                print("english", estate, building)
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
@@ -76,6 +93,8 @@ def getQuarantineDict(fileName):
         patternRegionBuilding = re.compile(r'^(.*?)\s+(.*?)$')
 
         patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
+        patternEnglish = re.compile(r'^([\w|\s]+)\s(第?([\u4E00-\u9FA5]|\d)+(.+))$')
+
         patternCommon = re.compile(r"^(.*?)(第.{1,3}座)$")
 
         patternNonestates = re.compile(r"([^\s]+)\s+(.*?)$")
@@ -90,12 +109,22 @@ def getQuarantineDict(fileName):
                 regionEstates[region] = {}
 
             resEstates = patternEstates.match(estateFull)
+            resEnglish = patternEnglish.match(estateFull)
             resCommon = patternCommon.match(estateFull)
             resNonestates = patternNonestates.match(estateFull)
 
             if resEstates:
                 estate = normalize(resEstates.group(1).upper().strip().replace(" ", ""))
                 building = normalize(resEstates.group(2).upper().strip().replace(" ", ""))
+
+                if estate not in regionEstates[region]:
+                    regionEstates[region][estate] = []
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
+
+            elif resEnglish:
+                estate = normalize(resEnglish.group(1).upper().strip().replace(" ", ""))
+                building = normalize(resEnglish.group(2).upper().strip().replace(" ", ""))
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
