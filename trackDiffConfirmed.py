@@ -1,7 +1,7 @@
-from methods import getQuarantineDict
+from methods import getQuarantineDict, getConfirmedDict
 
-regionEstatesT = getQuarantineDict('file_confirmedBuildings_T')
-regionEstatesY = getQuarantineDict('file_confirmedBuildings_T-1')
+regionEstatesT = getConfirmedDict('file_confirmedBuildings_T')
+regionEstatesY = getConfirmedDict('file_confirmedBuildings_T-1')
 
 increaseRegions = {}
 increaseEstates = {}
@@ -61,23 +61,23 @@ for r in regionEstatesY:
                             decreaseBuildings[r][e] = []
                         decreaseBuildings[r][e].append(b)
 # print(decreaseBuildings)
-print("********************今天昨天对比 确诊********************")
-totalEstatesInHKT = sum(len(regionEstatesT[r]) for r in regionEstatesT.keys())
-totalEstatesInHKY = sum(len(regionEstatesY[r]) for r in regionEstatesY.keys())
-totalBuildingsInHKT = sum(sum(len(regionEstatesT[r][e])
-                              for e in regionEstatesT[r].keys()) for r in regionEstatesT.keys())
-totalBuildingsInHKY = sum(sum(len(regionEstatesY[r][e])
-                              for e in regionEstatesY[r].keys()) for r in regionEstatesY.keys())
 
 # print(decreaseBuildings)
 print("********************今天昨天对比 确诊********************")
+totalRegionsHKT = len(regionEstatesT.keys())
+totalRegionsHKY = len(regionEstatesY.keys())
+print("确诊总区 T/T-1", totalRegionsHKT, totalRegionsHKY, str(totalRegionsHKT - totalRegionsHKY))
+# print(regionEstatesT.keys())
+# print(regionEstatesY.keys())
+
 totalEstatesInHKT = sum(len(regionEstatesT[r]) for r in regionEstatesT.keys())
 totalEstatesInHKY = sum(len(regionEstatesY[r]) for r in regionEstatesY.keys())
-totalBuildingsInHKT = sum(sum(len(regionEstatesT[r][e])
-                              for e in regionEstatesT[r].keys()) for r in regionEstatesT.keys())
+print("确诊总小区 T/T-1", totalEstatesInHKT, totalEstatesInHKY, str(totalEstatesInHKT - totalEstatesInHKY))
+
+totalBuildingsInHKT = sum(
+    sum(len(regionEstatesT[r][e]) for e in regionEstatesT[r].keys()) for r in regionEstatesT.keys())
 totalBuildingsInHKY = sum(sum(len(regionEstatesY[r][e])
                               for e in regionEstatesY[r].keys()) for r in regionEstatesY.keys())
-print("确诊总小区 T/T-1", totalEstatesInHKT, totalEstatesInHKY, str(totalEstatesInHKT - totalEstatesInHKY))
 print("确诊总楼数 T/T-1 ", totalBuildingsInHKT, totalBuildingsInHKY, str(totalBuildingsInHKT - totalBuildingsInHKY))
 
 # xiaoqu
@@ -128,7 +128,6 @@ for r in sorted(decreaseBuildings,
     print("****", r, "减少楼****", "Estates:", totalEstateInRegion, "Bldg:", totalBuildingsInRegion)
     for k in sorted(decreaseBuildings[r], key=lambda k: len(decreaseBuildings[r][k]), reverse=True):
         print(k, decreaseBuildings[r][k], len(decreaseBuildings[r][k]))
-
 
 # print("确诊总小区 T/T-1", totalEstatesInHKT, totalEstatesInHKY, str(totalEstatesInHKT - totalEstatesInHKY))
 # print("确诊总楼数 T/T-1 ", totalBuildingsInHKT, totalBuildingsInHKY, str(totalBuildingsInHKT - totalBuildingsInHKY))

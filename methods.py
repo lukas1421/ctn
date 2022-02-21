@@ -18,6 +18,9 @@ def getConfirmedDict(fileName):
     regionEstates = {}
 
     for line in lines:
+        if '地區' in line:
+            continue
+
         patternRegionBuilding = re.compile(r'^(.*?)\s+(.*?)$')
         resRegionBuilding = patternRegionBuilding.match(line)
         patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")

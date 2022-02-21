@@ -63,16 +63,23 @@ for r in regionEstatesY:
 
 # print(decreaseBuildings)
 print("********************今天昨天对比 隔离********************")
+totalRegionsHKT = len(regionEstatesT.keys())
+totalRegionsHKY = len(regionEstatesY.keys())
+print("隔离总区 T/T-1", totalRegionsHKT, totalRegionsHKY, str(totalRegionsHKT - totalRegionsHKY))
+
 totalEstatesInHKT = sum(len(regionEstatesT[r]) for r in regionEstatesT.keys())
 totalEstatesInHKY = sum(len(regionEstatesY[r]) for r in regionEstatesY.keys())
+print("隔离总小区 T/T-1", totalEstatesInHKT, totalEstatesInHKY, str(totalEstatesInHKT - totalEstatesInHKY))
+
+
 totalBuildingsInHKT = sum(sum(len(regionEstatesT[r][e])
                               for e in regionEstatesT[r].keys()) for r in regionEstatesT.keys())
 totalBuildingsInHKY = sum(sum(len(regionEstatesY[r][e])
                               for e in regionEstatesY[r].keys()) for r in regionEstatesY.keys())
-print("隔离总小区 T/T-1", totalEstatesInHKT, totalEstatesInHKY, str(totalEstatesInHKT - totalEstatesInHKY))
 print("隔离总楼数 T/T-1 ", totalBuildingsInHKT, totalBuildingsInHKY, str(totalBuildingsInHKT - totalBuildingsInHKY))
 
 # xiaoqu
+print(" ")
 print("************隔离小区增加****************:", sum(len(increaseEstates[r]) for r in increaseEstates.keys()))
 
 for r in sorted(increaseEstates, key=lambda r: len(increaseEstates[r]), reverse=True):
