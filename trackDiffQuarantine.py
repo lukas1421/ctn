@@ -8,16 +8,13 @@ increases = {}
 
 for r in regionEstatesT:
     if r not in regionEstatesY:
-        # print("new region:", r)
         increases[r] = regionEstatesT[r]
     else:
         for e in regionEstatesT[r]:
-
             if e not in regionEstatesY[r]:
                 if r not in increases:
                     increases[r] = {}
                 increases[r][e] = regionEstatesT[r][e]
-            #   print("new estate:", r, e, regionEstatesT[r][e])
             else:
                 for b in regionEstatesT[r][e]:
                     if b not in regionEstatesY[r][e]:
@@ -26,11 +23,10 @@ for r in regionEstatesT:
                         if e not in increases[r]:
                             increases[r][e] = []
                         increases[r][e].append(b)
-            #            print("new building", r, e, b)
 print(increases)
 
 # DECREASE
-decreases={}
+decreases = {}
 for r in regionEstatesY:
     if r not in regionEstatesT:
         decreases[r] = regionEstatesY[r]

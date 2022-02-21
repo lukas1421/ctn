@@ -4,64 +4,6 @@ from methods import getConfirmedDict
 
 regionEstates = getConfirmedDict('file_confirmedBuildings_T')
 
-# with open("file_confirmedBuildings_T", "r") as file:
-#     lines = file.read().rstrip().splitlines()
-#
-# regionEstates = {}
-#
-# for line in lines:
-#     # print(region)
-#     patternRegionBuilding = re.compile(r'^(.*?)\s+(.*?)$')
-#     # pattern = re.compile(r'' + region)
-#     # print(pattern)
-#     # patternRegion = re.compile(region + r'\s+(.*?)$')
-#     # print(patternRegion)
-#     # pattern = re.compile(r'西貢')
-#     # pattern1 = re.compile(r'西貢\s+(.*?)$')
-#     resRegionBuilding = patternRegionBuilding.match(line)
-#     patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
-#     patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
-#     patternNonestates = re.compile(r"([^\s]+)\s*(.*?)$")
-#
-#     if resRegionBuilding:
-#         region = resRegionBuilding.group(1)
-#         estateFull = resRegionBuilding.group(2)
-#
-#         if region == '地區':
-#             #print("diqu useless line", region, line)
-#             continue
-#
-#         if region not in regionEstates:
-#             regionEstates[region] = {}
-#
-#         # print("group1",region, "group2", estateFull)
-#         resEstate = patternEstates.match(estateFull)
-#         resPhase = patternPhase.match(estateFull)
-#         resultNonestate = patternNonestates.match(estateFull)
-#
-#         if resEstate:
-#             estate = resEstate.group(1)
-#             building = resEstate.group(2)
-#
-#             if estate not in regionEstates[region]:
-#                 regionEstates[region][estate] = []
-#             regionEstates[region][estate].append(building)
-#
-#         elif resPhase:
-#             estate = resPhase.group(1)
-#             building = resPhase.group(2)
-#             if estate not in regionEstates[region]:
-#                 regionEstates[region][estate] = []
-#             regionEstates[region][estate].append(building)
-#
-#         elif resultNonestate:
-#             estate = resultNonestate.group(1)
-#             building = resultNonestate.group(2)
-#
-#             if estate not in regionEstates[region]:
-#                 regionEstates[region][estate] = []
-#             regionEstates[region][estate].append(building)
-#
 print("*******************************确诊小区*****************************")
 totalEstatesInHK = sum(len(regionEstates[r]) for r in regionEstates.keys())
 totalBuildingsInHK = sum(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) for r in regionEstates.keys())
