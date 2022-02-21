@@ -92,10 +92,10 @@ for r in set(list(regionEstatesT.keys()) + list(regionEstatesY.keys())):
 
     estateChg[r] = lenT - lenY
 
-print("estate chg", estateChg)
-print(sum(estateChg[k] for k in estateChg.keys()))
+# print("estate chg", estateChg)
+# print(sum(estateChg[k] for k in estateChg.keys()))
 
-for r in sorted(estateChg, key=lambda r: estateChg[r], reverse=False):
+for r in sorted(estateChg, key=lambda r: estateChg[r], reverse=True):
     print(r, estateChg[r])
     print("****", r, "****")
 
@@ -104,6 +104,8 @@ for r in sorted(estateChg, key=lambda r: estateChg[r], reverse=False):
             print('增加', e, increaseEstates[r][e], len(increaseEstates[r][e]))
     else:
         print(r, "无增加")
+
+    print(' ')
 
     if r in decreaseEstates.keys():
         for e in sorted(decreaseEstates[r], key=lambda e: len(decreaseEstates[r][e]), reverse=False):
@@ -125,10 +127,12 @@ for r in set(list(regionEstatesT.keys()) + list(regionEstatesY.keys())):
 
     buildingChg[r] = lenT - lenY
 
-print(buildingChg)
-print(sum(buildingChg[k] for k in buildingChg.keys()))
+# print(buildingChg)
+# print(sum(buildingChg[k] for k in buildingChg.keys()))
+print(' ')
+print("**********Buildings**********")
 
-for r in sorted(buildingChg, key=lambda r: buildingChg[r], reverse=False):
+for r in sorted(buildingChg, key=lambda r: buildingChg[r], reverse=True):
     print(' ')
     print("****", r, "****", buildingChg[r])
 
@@ -138,6 +142,7 @@ for r in sorted(buildingChg, key=lambda r: buildingChg[r], reverse=False):
     else:
         print(r, "无增加")
 
+    print(' ')
     if r in decreaseBuildings.keys():
         for e in sorted(decreaseBuildings[r], key=lambda e: len(decreaseBuildings[r][e]), reverse=False):
             print('减少', e, decreaseBuildings[r][e], len(decreaseBuildings[r][e]))
