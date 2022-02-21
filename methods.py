@@ -6,8 +6,8 @@ dict1 = {'10': '十', '11': '十一', '1': '一', '2': '二', '3': '三', '4': '
 
 
 def normalize(s):
-    for i in dict1.keys():
-        s = s.replace(i, dict1[i])
+    # for i in dict1.keys():
+    #     s = s.replace(i, dict1[i])
     return unicodedata.normalize('NFKC', s)
 
 
@@ -21,42 +21,52 @@ def getConfirmedDict(fileName):
         if '地區' in line:
             continue
 
+        line = line.replace("(","").replace(")","")
+
         patternRegionBuilding = re.compile(r'^(.*?)\s+(.*?)$')
         resRegionBuilding = patternRegionBuilding.match(line)
-        patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
+        patternEstates = re.compile(r"([\u4E00-\u9FA5]+苑|[\u4E00-\u9FA5]+邨)(.*?)$")
         patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
+        patternEnglish = re.compile(r"([^\d第]+)\s+(\w+\s+座?)$")
         patternNonestates = re.compile(r"([^\s]+)\s*(.*?)$")
         # patternEnglish = re.compile(r'^(.*?)\s\d+')
         # patternEnglish = re.compile(r'^(.*?)\s[第|\d]')
-        patternEnglish = re.compile(r'^([\w|\s]+)\s(第?([\u4E00-\u9FA5]|\d)+(.+))$')
+        # patternEnglish = re.compile(r'^([\w|\s]+)\s(第?([\u4E00-\u9FA5]|\d)+(.+))$')
 
 
         if resRegionBuilding:
-            region = normalize(resRegionBuilding.group(1).upper().strip())
-            estateFull = normalize(resRegionBuilding.group(2).upper().strip().replace(" ", ""))
+            region = resRegionBuilding.group(1).upper().strip()
+            # estateFull = normalize(resRegionBuilding.group(2).upper().strip().replace(" ", ""))
+            estateFull = resRegionBuilding.group(2).upper().strip()
 
             if region not in regionEstates:
                 regionEstates[region] = {}
 
-            print("estatefull",estateFull)
+            print("estatefull", estateFull)
             resEstate = patternEstates.match(estateFull)
             resPhase = patternPhase.match(estateFull)
             resEnglish = patternEnglish.match(estateFull)
             resultNonestate = patternNonestates.match(estateFull)
 
             if resEstate:
-                estate = normalize(resEstate.group(1).upper().strip().replace(" ", ""))
+                estate = normalize(resEstate.group(1).upper().strip().replace(" ", "_"))
                 building = normalize(resEstate.group(2).upper().strip().replace(" ", ""))
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
                 if building not in regionEstates[region][estate]:
                     regionEstates[region][estate].append(building)
+            elif resPhase:
+                estate = normalize(resPhase.group(1).upper().strip().replace(" ", "_"))
+                building = normalize(resPhase.group(2).upper().strip().replace(" ", ""))
+                if estate not in regionEstates[region]:
+                    regionEstates[region][estate] = []
+                if building not in regionEstates[region][estate]:
+                    regionEstates[region][estate].append(building)
+
             elif resEnglish:
-
-                estate = normalize(resEnglish.group(1).upper().strip().replace(" ", ""))
-                building = normalize(resEnglish.group(2).upper().strip().replace(" ", ""))
-
+                estate = resEnglish.group(1).upper().strip().replace("  ", " ").replace(" ", "_")
+                building = resEnglish.group(2).upper().strip().replace(" ", "")
                 print("english", estate, building)
 
                 if estate not in regionEstates[region]:
@@ -64,16 +74,8 @@ def getConfirmedDict(fileName):
                 if building not in regionEstates[region][estate]:
                     regionEstates[region][estate].append(building)
 
-            elif resPhase:
-                estate = normalize(resPhase.group(1).upper().strip().replace(" ", ""))
-                building = normalize(resPhase.group(2).upper().strip().replace(" ", ""))
-                if estate not in regionEstates[region]:
-                    regionEstates[region][estate] = []
-                if building not in regionEstates[region][estate]:
-                    regionEstates[region][estate].append(building)
-
             elif resultNonestate:
-                estate = normalize(resultNonestate.group(1).upper().strip().replace(" ", ""))
+                estate = normalize(resultNonestate.group(1).upper().strip().replace(" ", "_"))
                 building = normalize(resultNonestate.group(2).upper().strip().replace(" ", ""))
 
                 if estate not in regionEstates[region]:
@@ -90,10 +92,15 @@ def getQuarantineDict(fileName):
     regionEstates = {}
 
     for line in lines:
+
+        line = line.replace("(","").replace(")","")
+
         patternRegionBuilding = re.compile(r'^(.*?)\s+(.*?)$')
 
         patternEstates = re.compile(r"([\u4E00-\u9FA5]{2}苑|[\u4E00-\u9FA5]{2}邨)(.*?)$")
-        patternEnglish = re.compile(r'^([\w|\s]+)\s(第?([\u4E00-\u9FA5]|\d)+(.+))$')
+        #patternEnglish = re.compile(r'^([\w|\s]+)\s(第?([\u4E00-\u9FA5]|\d)+(.+))$')
+        # patternEnglish = re.compile("([^\d第]+)\s(.+)$")
+        patternEnglish = re.compile(r"([^\d第]+)\s+(\w+\s+座?)$")
 
         patternCommon = re.compile(r"^(.*?)(第.{1,3}座)$")
 
@@ -122,23 +129,26 @@ def getQuarantineDict(fileName):
                 if building not in regionEstates[region][estate]:
                     regionEstates[region][estate].append(building)
 
+
+            # elif resCommon:
+            #     estate = normalize(resCommon.group(1).upper().strip().replace(" ", ""))
+            #     building = normalize(resCommon.group(2).upper().strip().replace(" ", ""))
+            #
+            #     if estate not in regionEstates[region]:
+            #         regionEstates[region][estate] = []
+            #     if building not in regionEstates[region][estate]:
+            #         regionEstates[region][estate].append(building)
+
             elif resEnglish:
-                estate = normalize(resEnglish.group(1).upper().strip().replace(" ", ""))
-                building = normalize(resEnglish.group(2).upper().strip().replace(" ", ""))
+                estate = resEnglish.group(1).upper().strip().replace("  ", " ").replace(" ", "_")
+                building = resEnglish.group(2).upper().strip().replace(" ", "")
+                print("english", estate, building)
 
                 if estate not in regionEstates[region]:
                     regionEstates[region][estate] = []
                 if building not in regionEstates[region][estate]:
                     regionEstates[region][estate].append(building)
 
-            elif resCommon:
-                estate = normalize(resCommon.group(1).upper().strip().replace(" ", ""))
-                building = normalize(resCommon.group(2).upper().strip().replace(" ", ""))
-
-                if estate not in regionEstates[region]:
-                    regionEstates[region][estate] = []
-                if building not in regionEstates[region][estate]:
-                    regionEstates[region][estate].append(building)
 
             elif resNonestates:
                 estate = normalize(resNonestates.group(1).upper().strip().replace(" ", ""))
