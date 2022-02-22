@@ -38,8 +38,8 @@ for r in sorted(regionEstates,
                     '邨' in e or '苑' in e and len(regionEstates[r][e]) > 1)
                 / sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) * 100), "%")
 
-    for k in sorted(regionEstates[r], key=lambda k: len(regionEstates[r][k]), reverse=True):
-        print(r, k, regionEstates[r][k], len(regionEstates[r][k]))
+    for e in sorted(regionEstates[r], key=lambda e: len(regionEstates[r][e]), reverse=True):
+        print(r, e, regionEstates[r][e], len(regionEstates[r][e]))
 
 # print(region)
 # # print(dictEstates)

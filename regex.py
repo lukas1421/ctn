@@ -1,6 +1,5 @@
 import re
 
-
 def getEstateFull(line):
     try:
         region = re.compile(r'^(\S+)\s+(.+)$').match(line).group(1)
@@ -17,7 +16,7 @@ def getBuildingEstate(estateFull):
     patternSingleBuilding = re.compile(r"^(\S+)$")
     patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
     patternSeat = re.compile(r"(^.+)\s*(第\s*\S+\s*座)$")
-    patternEnglish = re.compile(r"(\S+)\s+(\S+\s*座)$")
+    patternEnglish = re.compile(r"(^.+)\s+(\S+\s*座)$")
     # patternEnglish = re.compile(r"([^第]+)\s*(第*\S+\s*座)+$")
     patternStreet = re.compile(r"^(.+)\s+(\S+\s*號)$")
 
@@ -70,7 +69,9 @@ def getBuildingEstate(estateFull):
     return estate, building, resType
 
 
-# with open('file_quarantineBuildings_T', "r") as file:
+###RUN####
+
+# with open('file_confirmedBuildings_T', "r") as file:
 #     lines = file.read().rstrip().splitlines()
 #
 # for line in lines:
