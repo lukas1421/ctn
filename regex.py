@@ -13,7 +13,7 @@ def getEstateFull(line):
 
 
 def getBuildingEstate(estateFull):
-    patternEstates = re.compile(r"([\u4E00-\u9FA5]+[苑|邨|花園])([\u4E00-\u9FA5]+[樓|閣|苑].*?)$")
+    patternGovEstates = re.compile(r"([\u4E00-\u9FA5]+[苑|邨|花園])([\u4E00-\u9FA5]+[樓|閣|苑].*?)$")
     patternSingleBuilding = re.compile(r"^(\S+)$")
     patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
     patternSeat = re.compile(r"(^.+)\s*(第\s*\S+\s*座)$")
@@ -23,7 +23,7 @@ def getBuildingEstate(estateFull):
 
     patternNonestates = re.compile(r"^(.+)$")
 
-    resEstate = patternEstates.match(estateFull)
+    resEstate = patternGovEstates.match(estateFull)
     resSingle = patternSingleBuilding.match(estateFull)
     resPhase = patternPhase.match(estateFull)
     resSeat = patternSeat.match(estateFull)

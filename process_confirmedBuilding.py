@@ -21,6 +21,7 @@ print(" total public buildings ", totalPublicBuildingsInHK)
 
 for r in sorted(regionEstates,
                 key=lambda r: sum(len(regionEstates[r][v]) for v in regionEstates[r].keys()), reverse=True):
+    print(' ')
     print("***************", r, "****************")
     print("# of estates/HK estates", len(regionEstates[r]), round(len(regionEstates[r]) / totalEstatesInHK * 100), "%")
     print("# of public estates/region estates", sum(1 for e in regionEstates[r].keys() if '邨' in e or '苑' in e),
