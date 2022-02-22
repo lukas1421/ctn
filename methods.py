@@ -20,7 +20,7 @@ def getConfirmedDict(fileName):
     regionEstates = {}
 
     for line in lines:
-        if '地區' in line:
+        if '地區' in line or ' ' not in line:
             continue
 
         line = line.replace("(", "").replace(")", "")
