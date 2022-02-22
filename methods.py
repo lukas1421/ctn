@@ -152,7 +152,8 @@ def getQuarantineDict(fileName):
 
             elif resNonestates:
                 estate = normalize(resNonestates.group(1).upper().strip().replace(" ", "_"))
-                building = normalize(resNonestates.group(2).upper().strip().replace(" ", ""))
+                building = estate
+                # building = normalize(resNonestates.group(2).upper().strip().replace(" ", ""))
 
             else:
                 raise Exception("not found", estateFull)

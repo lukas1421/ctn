@@ -65,6 +65,10 @@ for r in regionEstatesY:
 
 print(decreaseBuildings)
 
+# print('increases')
+# print(increaseEstates)
+# print(e for e in sorted(increaseEstates, key=lambda e:increaseEstates[e],reverse=True))
+
 print("********************今天昨天对比 确诊********************")
 totalRegionsHKT = len(regionEstatesT.keys())
 totalRegionsHKY = len(regionEstatesY.keys())
@@ -79,7 +83,6 @@ totalBuildingsInHKT = sum(
 totalBuildingsInHKY = sum(sum(len(regionEstatesY[r][e])
                               for e in regionEstatesY[r].keys()) for r in regionEstatesY.keys())
 print("确诊总楼数 T/T-1 ", totalBuildingsInHKT, totalBuildingsInHKY, str(totalBuildingsInHKT - totalBuildingsInHKY))
-
 
 # def getLength(dict, key):
 #     if key in dict:
@@ -96,7 +99,9 @@ for r in set(list(regionEstatesT.keys()) + list(regionEstatesY.keys())):
 
     estateChg[r] = lenT - lenY
 
-# print("estate chg", estateChg)
+print("estate chg")
+print(sorted(((v, k) for k, v in estateChg.items()), reverse=True))
+# print(e for e in sorted(estateChg, key=lambda e:estateChg[e],reverse=True))
 # print(sum(estateChg[k] for k in estateChg.keys()))
 
 for r in sorted(estateChg, key=lambda r: estateChg[r], reverse=True):
