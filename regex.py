@@ -17,7 +17,7 @@ def getBuildingEstate(estateFull):
     patternSingleBuilding = re.compile(r"^(\S+)$")
     patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
     patternSeat = re.compile(r"(^.+)\s*(第\s*\S+\s*座)$")
-    patternEnglish = re.compile(r"([^第]+)\s+(\S+\s*座)$")
+    patternEnglish = re.compile(r"(\S+)\s+(\S+\s*座)$")
     # patternEnglish = re.compile(r"([^第]+)\s*(第*\S+\s*座)+$")
     patternStreet = re.compile(r"^(.+)\s+(\S+\s*號)$")
 
@@ -30,7 +30,7 @@ def getBuildingEstate(estateFull):
     resEnglish = patternEnglish.match(estateFull)
     resStreet = patternStreet.match(estateFull)
     resultNonestate = patternNonestates.match(estateFull)
-    resType = ""
+    resType = "default"
 
     if resSeat:
         estate = resSeat.group(1).upper().strip().replace(" ", "_")
@@ -64,7 +64,9 @@ def getBuildingEstate(estateFull):
         building = estate
         resType = 'resNonestate'
     else:
+        resType = 'notFound'
         raise Exception("not found")
+
     return estate, building, resType
 
 
@@ -73,9 +75,11 @@ def getBuildingEstate(estateFull):
 #
 # for line in lines:
 #     try:
-#         print(getEstateFull(line))
-#         resTuple = getBuildingEstate(getEstateFull(line))
-#         print(resTuple[0], resTuple[1], resTuple[2])
+#         #print(getEstateFull(line))
+#         resTuple = getBuildingEstate(getEstateFull(line)[1])
+#         #print(resTuple[0], resTuple[1])
+#         print("tuple", resTuple)
+#         #print("line only", line)
 #     except Exception as e:
 #         print(line, " ", e)
 #     # print(getBuildingEstate())
