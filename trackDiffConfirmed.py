@@ -111,7 +111,7 @@ for r in sorted(estateChg, key=lambda r: estateChg[r], reverse=True):
     print("****", r, "****", estateChg[r], "加", inc, "减", dec)
 
     if r in increaseEstates.keys():
-        for e in sorted(increaseEstates[r], key=lambda e: len(increaseEstates[r][e]), reverse=False):
+        for e in sorted(increaseEstates[r], key=lambda e: len(increaseEstates[r][e]), reverse=True):
             print('增加', e, increaseEstates[r][e], len(increaseEstates[r][e]))
     else:
         print(r, "无增加")
@@ -119,7 +119,7 @@ for r in sorted(estateChg, key=lambda r: estateChg[r], reverse=True):
     print(' ')
 
     if r in decreaseEstates.keys():
-        for e in sorted(decreaseEstates[r], key=lambda e: len(decreaseEstates[r][e]), reverse=False):
+        for e in sorted(decreaseEstates[r], key=lambda e: len(decreaseEstates[r][e]), reverse=True):
             print('减少', e, decreaseEstates[r][e], len(decreaseEstates[r][e]))
     else:
         print(r, "无减少")
@@ -151,14 +151,14 @@ for r in sorted(buildingChg, key=lambda r: buildingChg[r], reverse=True):
     print("****", r, "**** chg:", buildingChg[r], "加:", inc, "减:", dec)
 
     if r in increaseBuildings.keys():
-        for e in sorted(increaseBuildings[r], key=lambda e: len(increaseBuildings[r][e]), reverse=False):
+        for e in sorted(increaseBuildings[r], key=lambda e: len(increaseBuildings[r][e]), reverse=True):
             print('增加', e, increaseBuildings[r][e], len(increaseBuildings[r][e]))
     else:
         print(r, "无增加")
 
     print(' ')
     if r in decreaseBuildings.keys():
-        for e in sorted(decreaseBuildings[r], key=lambda e: len(decreaseBuildings[r][e]), reverse=False):
+        for e in sorted(decreaseBuildings[r], key=lambda e: len(decreaseBuildings[r][e]), reverse=True):
             print('减少', e, decreaseBuildings[r][e], len(decreaseBuildings[r][e]))
     else:
         print(r, "无减少")
