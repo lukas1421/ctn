@@ -32,34 +32,33 @@ def getBuildingEstate(estateFull):
     resType = "default"
 
     if resSeat:
-        estate = resSeat.group(1).upper().strip().replace(" ", "_")
+        estate = prettifyEstate(resSeat.group(1))
         building = resSeat.group(2).upper().strip().replace(" ", "")
         resType = 'resSeat'
     elif resEstate:
-        estate = resEstate.group(1).upper().strip().replace(" ", "_")
+        estate = prettifyEstate(resEstate.group(1))
         building = resEstate.group(2).upper().strip().replace(" ", "")
         resType = 'resEstate'
     elif resSingle:
-        estate = resSingle.group(1).upper().strip().replace(" ", "_")
+        estate = prettifyEstate(resSingle.group(1))
         building = estate
         resType = 'resSingle'
     elif resPhase:
-        estate = resPhase.group(1).upper().strip().replace(" ", "_")
+        estate = prettifyEstate(resPhase.group(1))
         building = resPhase.group(2).upper().strip().replace(" ", "")
         resType = 'resPhase'
     elif resEnglish:
-        estate = resEnglish.group(1).upper().strip().replace("  ", " ").replace(" ", "_")
+        estate = prettifyEstate(resEnglish.group(1))
         building = resEnglish.group(2).upper().strip().replace(" ", "") \
             if resEnglish.group(2) != None else estate
         resType = 'resEnglish'
-
     elif resStreet:
-        estate = resStreet.group(1).upper().strip().replace(" ", "_")
+        estate = prettifyEstate(resStreet.group(1))
         building = resStreet.group(2).upper().strip().replace(" ", "")
         resType = 'resStreet'
 
     elif resultNonestate:
-        estate = resultNonestate.group(1).upper().strip().replace(" ", "_")
+        estate = prettifyEstate(resultNonestate.group(1))
         building = estate
         resType = 'resNonestate'
     else:
@@ -67,6 +66,12 @@ def getBuildingEstate(estateFull):
         raise Exception("not found")
 
     return estate, building, resType
+
+# 青山公路 - 荃灣段
+def prettifyEstate(estate):
+    return '_'.join(estate.strip().upper().replace("-"," ").split())
+    # return '_'.join(re.split(r',+|_+|\s+', estate)).replace(" ", "_")
+    # return estate.upper().strip().replace(" ", "_")
 
 
 ###RUN####
