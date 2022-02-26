@@ -15,7 +15,16 @@ totalPublicBuildingsInHK = sum(sum(len(regionEstates[r][e]) for e in regionEstat
                                for r in regionEstates.keys())
 
 print(" total estate in HK ", totalEstatesInHK)
+
+# print(sorted(((v, k) for k, v in estateChg.items()), reverse=True))
+
+estatesRanks = {k: len(v) for k, v in regionEstates.items()}
+print(sorted(((v, r) for r, v in estatesRanks.items()), reverse=True))
+
 print(" total Buildings in HK ", totalBuildingsInHK)
+buildingRank = {r: sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) for r in regionEstates.keys()}
+print(sorted(((v, r) for r, v in buildingRank.items()), reverse=True))
+
 print(" total public estates ", totalPublicEstatesInHK)
 print(" total public buildings ", totalPublicBuildingsInHK)
 
