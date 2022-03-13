@@ -4,6 +4,8 @@ from methods import getConfirmedDict
 
 regionEstates = getConfirmedDict('file_confirmedBuildings_T')
 
+# print(regionEstates['南區'])
+
 print("*******************************确诊小区*****************************")
 totalEstatesInHK = sum(len(regionEstates[r]) for r in regionEstates.keys())
 totalBuildingsInHK = sum(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) for r in regionEstates.keys())
@@ -48,6 +50,7 @@ for r in sorted(regionEstates,
     print("# total Buildings", sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()))
 
     print("# total Buildings/total HK buildings", sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()),
+          totalBuildingsInHK,
           round(sum(len(regionEstates[r][e]) for e in regionEstates[r].keys()) / totalBuildingsInHK * 100), "%")
 
     # print("# of public buildings/region buildings",

@@ -17,11 +17,15 @@ def getConfirmedDict(fileName):
     with open(fileName, "r") as file:
         lines = file.read().rstrip().splitlines()
 
+    # print(lines)
+
     regionEstates = {}
 
     for line in lines:
-        if '地區' in line or ' ' not in line:
+        if '地區' in line or '\t' not in line:
             continue
+
+        # print(line)
 
         line = line.replace("(", "").replace(")", "")
 
