@@ -144,6 +144,11 @@ for r in set(list(regionEstatesT.keys()) + list(regionEstatesY.keys())):
 print(' ')
 print("**********Buildings**********", sum(buildingChg[k] for k in buildingChg.keys()))
 
+#print
+print(sorted(((v, k) for k, v in buildingChg.items()), reverse=True))
+
+
+
 for r in sorted(buildingChg, key=lambda r: buildingChg[r], reverse=True):
     print(' ')
     inc = sum(len(increaseBuildings[r][e]) for e in increaseBuildings[r].keys()) if r in increaseBuildings.keys() else 0
