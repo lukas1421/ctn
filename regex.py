@@ -1,9 +1,11 @@
 import re
 
+
 def getEstateFull(line):
     try:
         region = re.compile(r'^(\S+)\s+(.+)$').match(line).group(1)
         res = re.compile(r'^(\S+)\s+(.+)$').match(line).group(2)
+        res = res.upper().replace(' ', '')
 
         # return res if res != None else res
         return region, res
@@ -13,12 +15,13 @@ def getEstateFull(line):
 
 def getBuildingEstate(estateFull):
     patternGovEstates = re.compile(r"([\u4E00-\u9FA5]+花*[苑邨村園心島廈都城])([\u4E00-\u9FA5]+[樓閣楼苑軒居廈].*?)$")
-    patternSingleBuilding = re.compile(r"^(\S+)$")
     patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
     patternSeat = re.compile(r"(^.+)\s*(第\s*\S+\s*座)$")
     patternEnglish = re.compile(r"(^.+)\s+(\S+\s*座)$")
     # patternEnglish = re.compile(r"([^第]+)\s*(第*\S+\s*座)+$")
     patternStreet = re.compile(r"^(.+)\s+(\S+\s*號)$")
+    patternNoSpace = re.compile(r"^([\u4E00-\u9FA5]+)(\w+座)$")
+    patternSingleBuilding = re.compile(r"^(\S+)$")
 
     patternNonestates = re.compile(r"^(.+)$")
 
@@ -28,6 +31,7 @@ def getBuildingEstate(estateFull):
     resSeat = patternSeat.match(estateFull)
     resEnglish = patternEnglish.match(estateFull)
     resStreet = patternStreet.match(estateFull)
+    resNoSpace = patternNoSpace.match(estateFull)
     resultNonestate = patternNonestates.match(estateFull)
     resType = "default"
 
@@ -39,10 +43,7 @@ def getBuildingEstate(estateFull):
         estate = prettifyEstate(resEstate.group(1))
         building = resEstate.group(2).upper().strip().replace(" ", "")
         resType = 'resEstate'
-    elif resSingle:
-        estate = prettifyEstate(resSingle.group(1))
-        building = estate
-        resType = 'resSingle'
+
     elif resPhase:
         estate = prettifyEstate(resPhase.group(1))
         building = resPhase.group(2).upper().strip().replace(" ", "")
@@ -56,6 +57,16 @@ def getBuildingEstate(estateFull):
         estate = prettifyEstate(resStreet.group(1))
         building = resStreet.group(2).upper().strip().replace(" ", "")
         resType = 'resStreet'
+    elif resNoSpace:
+
+        estate = prettifyEstate(resNoSpace.group(1))
+        building = resNoSpace.group(2).upper().strip().replace(" ", "")
+        resType = 'resNoSpaceChinese'
+        # print('res no space', estate, building)
+    elif resSingle:
+        estate = prettifyEstate(resSingle.group(1))
+        building = estate
+        resType = 'resSingle'
 
     elif resultNonestate:
         estate = prettifyEstate(resultNonestate.group(1))
@@ -67,12 +78,12 @@ def getBuildingEstate(estateFull):
 
     return estate, building, resType
 
+
 # 青山公路 - 荃灣段
 def prettifyEstate(estate):
-    return '_'.join(estate.strip().upper().replace("-"," ").split())
+    return '_'.join(estate.strip().upper().replace("-", " ").split())
     # return '_'.join(re.split(r',+|_+|\s+', estate)).replace(" ", "_")
     # return estate.upper().strip().replace(" ", "_")
-
 
 ###RUN####
 
