@@ -5,16 +5,15 @@ def getEstateFull(line):
     try:
         region = re.compile(r'^(\S+)\s+(.+)$').match(line).group(1)
         res = re.compile(r'^(\S+)\s+(.+)$').match(line).group(2)
-        res = res.upper().replace(' ', '')
+        # res = res.upper().replace(' ', '')
 
-        # return res if res != None else res
         return region, res
     except Exception as e:
         print(line, "error")
 
 
 def getBuildingEstate(estateFull):
-    patternGovEstates = re.compile(r"([\u4E00-\u9FA5]+花*[苑邨村園心島廈都城])([\u4E00-\u9FA5]+[樓閣楼苑軒居廈].*?)$")
+    patternGovEstates = re.compile(r"([\u4E00-\u9FA5]+花*[苑邨村園臺心島廈都城])([\u4E00-\u9FA5]+[樓閣楼苑軒居廈].*?)$")
     patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
     patternSeat = re.compile(r"(^.+)\s*(第\s*\S+\s*座)$")
     patternEnglish = re.compile(r"(^.+)\s+(\S+\s*座)$")
