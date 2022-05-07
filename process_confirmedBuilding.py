@@ -2,7 +2,7 @@ import re
 
 from methods import getConfirmedDict
 
-regionEstates = getConfirmedDict('file_confirmedBuildings_T')
+regionEstates = getConfirmedDict('file_confirmedBuildings_T-1')
 
 # print(regionEstates['南區'])
 

@@ -13,18 +13,20 @@ def getEstateFull(line):
 
 
 def getBuildingEstate(estateFull):
-    patternGovEstates = re.compile(r"([\u4E00-\u9FA5]+花*[苑邨村園臺心島廈都城])([\u4E00-\u9FA5]+[樓閣楼苑軒居廈].*?)$")
-    patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
     patternSeat = re.compile(r"(^.+)\s*(第\s*\S+\s*座)$")
+
+    patternGovEstates = re.compile(r"([\u4E00-\u9FA5]+花*[苑邨村園臺心島廈都城])([\u4E00-\u9FA5]+[樓閣楼苑軒居廈].*?)$")
+    patternPrivate = re.compile(r"([\u4E00-\u9FA5]+花*[苑邨村園臺心島廈都城])(.*?座)$")
+    patternPhase = re.compile(r"^(.*?期)\s*(.*?)$")
     patternEnglish = re.compile(r"(^.+)\s+(\S+\s*座)$")
     # patternEnglish = re.compile(r"([^第]+)\s*(第*\S+\s*座)+$")
     patternStreet = re.compile(r"^(.+)\s+(\S+\s*號)$")
     patternNoSpace = re.compile(r"^([\u4E00-\u9FA5]+)(\w+座)$")
     patternSingleBuilding = re.compile(r"^(\S+)$")
-
     patternNonestates = re.compile(r"^(.+)$")
 
     resEstate = patternGovEstates.match(estateFull)
+    resPrivate = patternPrivate.match(estateFull)
     resSingle = patternSingleBuilding.match(estateFull)
     resPhase = patternPhase.match(estateFull)
     resSeat = patternSeat.match(estateFull)
@@ -42,7 +44,10 @@ def getBuildingEstate(estateFull):
         estate = prettifyEstate(resEstate.group(1))
         building = resEstate.group(2).upper().strip().replace(" ", "")
         resType = 'resEstate'
-
+    elif resPrivate:
+        estate = prettifyEstate(resPrivate.group(1))
+        building = resPrivate.group(2).upper().strip().replace(" ", "")
+        resType = 'resPrivate'
     elif resPhase:
         estate = prettifyEstate(resPhase.group(1))
         building = resPhase.group(2).upper().strip().replace(" ", "")
